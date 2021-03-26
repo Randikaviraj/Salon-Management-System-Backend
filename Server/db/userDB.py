@@ -1,5 +1,5 @@
 from Server.db import db
-from Server.middleware.hash import passwordCheck
+from Server.middleware.hash import passwordCheck,hashPassword
 
 
 # get reference to Ueser collection
@@ -17,12 +17,13 @@ class UserSignupModel:
         self.password=password
         
         
-async def signUp(email,user_name,password)-> bool:
+def signUp(email,user_name,password)-> bool:
     try:
-        user=await userdb.find_one({'email':email})
+        user=userdb.find_one({'email':email})
         if user:
             return False
-        await userdb.insert_one(vars(UserSignupModel(user_name=user_name,email=email,password=password)))
+        password=hashPassword(password)
+        userdb.insert_one(vars(UserSignupModel(user_name=user_name,email=email,password=password)))
         return True
     except:
         print('An exception occurred in SignUp')
@@ -30,9 +31,9 @@ async def signUp(email,user_name,password)-> bool:
       
     
     
-async def login(email,password)-> bool:
+def login(email,password)-> bool:
     try:
-        user=await userdb.find_one({'email':email})
+        user=userdb.find_one({'email':email})
         if (not user ) or passwordCheck(password,user['password']):
             return False
         return True
