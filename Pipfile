@@ -10,6 +10,9 @@ pymongo = "*"
 Flask = "*"
 motor = "*"
 flask-mongoengine = "*"
+flask-bcrypt = "*"
+install = "*"
+pyjwt = "*"
 
 [requires]
 python_version = "3.7"
