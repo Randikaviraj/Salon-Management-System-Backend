@@ -38,11 +38,18 @@ def signup_route():
 
 
 
+@seller_route.route("/createshop",methods=["POST"])
+@authMiddleware
+def createNewShop():
+    try:
+      print(x)
+    except:
+      print('An exception occurred')
+
 @seller_route.route("/home",methods=["POST"])
 @authMiddleware
 def home():
     # g.email
-    response=Response()
+    response=Response(status=200)
     response.headers['Authorization']=g.token
-    response.status=200
     return response
